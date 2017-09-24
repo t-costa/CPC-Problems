@@ -8,9 +8,9 @@ std::vector<int> getArrayInput(){
     std::cin >> size;
     std::vector<int> v(size);
 
-    for(int i=0; i<size; i++){
+    for(int i=0; i<size; i++)
         std::cin >> v[i];
-    }
+    
     return v;
 }
 
@@ -24,7 +24,11 @@ void printLeaders(std::vector<int> v){
             leader.push_front(max);
         }
     }
-
+    /*  
+    I use the deque just because in the example on the site
+    the elements are printed in the same order as the are in
+    the initial array.
+    */
     while (!leader.empty()){
         std::cout << leader.front() << ' ';
         leader.pop_front();
@@ -33,14 +37,12 @@ void printLeaders(std::vector<int> v){
 }
 
 int main() {
-
     int numberTest;
     std::cin >> numberTest;
     std::vector<std::vector<int>> test(numberTest);
 
-    for (int i=0; i<numberTest; i++){
+    for (int i=0; i<numberTest; i++)
         test[i] = getArrayInput();
-    }
 
     for (auto v : test)
         printLeaders(v);
