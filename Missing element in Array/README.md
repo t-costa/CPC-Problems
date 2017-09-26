@@ -5,4 +5,4 @@ So to find the missing number in an unordered list of numbers we just need to ca
 and subtract from that the sum of the elements in the array.
 
 <b>Complexity:</b> The time complexity is linear, we just need to scan the array once to calculate the sum of all the elements,
-and the space in constant, since we keep in memory just two more variables.
+and the space is constant, since we keep in memory just two more variables.
