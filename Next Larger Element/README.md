@@ -8,5 +8,5 @@ current one, so we add it at the bottom of the queue.
 At the end of the for loop, the elements still in the queue don't have a larger next element, so we set it to -1.
 
 <b>Complexity:</b> The algorithm runs a for loop between all the elements in input and every element is added to the queue just
-once (and removed just once) so the total cost in time is O(n). Also the space complexity is O(n), because of the queue and the
+once (and removed just once) so the total cost in time is `O(n)`. Also the space complexity is `O(n)`, because of the queue and the
 vector of the next larger elements.
