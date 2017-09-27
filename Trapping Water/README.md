@@ -1,6 +1,7 @@
-<b><i>Trapping Water</i></b>
+# Trapping Water
 
-<b>Description:</b> To calculate the maximum amount of water that can be trapped, the algorithm counts how much water can be trapped
+### Description
+To calculate the maximum amount of water that can be trapped, the algorithm counts how much water can be trapped
 in every single cell. To do this, we notice that for every single cell, we can't trap more water than the height of the heighest
 column (on the right or left) nor less than the shorter column (otherwise we could trap more water).
 So to trap the maximum amount of water we have to calculate the shorter of the highest columns surrounding the cell and remove
@@ -17,4 +18,5 @@ for (int i=0; i<n; i++)
 The other for loop are needed to initialize the vectors `leftMax` and `rightMax`, which contain respectively the largest value from the
 left and from the right (zero for the first and last value in the initial array).
 
-<b>Complexity:</b> The algorithm scan all the input array three times, so the time complexity is `O(n)`, and keeps in memory two addictional array (`leftMax` and `rightMax`) of n elements each, so the space complexity is `O(n)`.
+### Complexity
+The algorithm scan all the input array three times, so the time complexity is `O(n)`, and keeps in memory two addictional array (`leftMax` and `rightMax`) of n elements each, so the space complexity is `O(n)`.
