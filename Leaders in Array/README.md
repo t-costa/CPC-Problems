@@ -1,4 +1,4 @@
-# Solution of the "Leaders in Array" problem
+# Leaders in array problem
 
 ### Description
 The solution is really easy. To find all the elements in the array larger than the elements following them
