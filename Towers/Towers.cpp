@@ -4,22 +4,27 @@
 #include <tuple>
 #include <map>
 #include <unordered_map>
+#include <algorithm>
 
 
-void towers(std::vector<int> v){
+void towers(int size){
     std::unordered_map<int, int> table;
-    int max = 1;
+    table.reserve(size);
     int total = 0;
+    int val;
 
-    for (int i=0; i<v.size(); i++){
-        if (table.find(v[i]) == table.end()){
-            table.emplace(v[i], 1); //inserisco per la prima volta
+    for (int i=0; i<size; i++){
+        std::cin >> val;
+        if (table.find(val) == table.end()){
+            table.emplace(val, 1);
             total++;
-        } else {
-            table[v[i]]++;
-            if (table[v[i]] > max)
-                max = table[v[i]];
-        }
+        } else table[val]++;
+    }
+
+    int max = 0;    //minimum value is 1
+    for (auto it=table.begin(); it!=table.end(); ++it){
+        if (it->second > max)
+            max = it->second;
     }
 
     std::cout << max << ' ' << total << std::endl;
@@ -32,10 +37,7 @@ int main() {
     std::cin >> size;
     std::vector<int> test(size);
 
-    for (int i=0; i<size; i++)
-        std::cin >> test[i];
-
-    towers(test);
+    towers(size);
 
     return 0;
 }
