@@ -5,7 +5,7 @@
 std::vector<int> getArrayInput(){
     int size;
     std::cin >> size;
-    std::vector<int> v(size - 1);   //il secondo input è il numero totale di elementi
+    std::vector<int> v(size - 1);   //second input is the total number of elements
 
     for(int i=0; i<v.size(); i++){
         std::cin >> v[i];
