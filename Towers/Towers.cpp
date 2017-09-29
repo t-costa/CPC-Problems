@@ -12,19 +12,17 @@ void towers(int size){
     table.reserve(size);
     int total = 0;
     int val;
+    int max = 1;
 
     for (int i=0; i<size; i++){
         std::cin >> val;
         if (table.find(val) == table.end()){
             table.emplace(val, 1);
             total++;
-        } else table[val]++;
-    }
-
-    int max = 0;    //minimum value is 1
-    for (auto it=table.begin(); it!=table.end(); ++it){
-        if (it->second > max)
-            max = it->second;
+        } else {
+            table[val]++;
+            if (table[val] > max) max = table[val];
+        }
     }
 
     std::cout << max << ' ' << total << std::endl;
