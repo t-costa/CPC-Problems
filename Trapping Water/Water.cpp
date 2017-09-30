@@ -21,13 +21,14 @@ void maxWater(std::vector<int> v){
 
     leftMax[0] = 0;
     for (int i=1; i<n; i++)
-        //ogni elemento ha come massimo a sinistra l'elemento subito
-        //a sinistra o il massimo trovato finora a sinistra
+        //every element has as maximum to the left the previous one
+        //or the maximum found before
         leftMax[i] = std::max(leftMax[i-1], v[i-1]);
 
 
     rightMax[n-1] = 0;
     for (int i=n-2; i>=0; i--)
+        //same as for left
         rightMax[i] = std::max(rightMax[i+1], v[i+1]);
 
 

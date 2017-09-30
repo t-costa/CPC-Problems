@@ -16,7 +16,6 @@ std::vector<int> getArrayInput(){
 }
 
 void nextLarger(std::vector<int> v){
-    //forse dato che fai solo back puoi usare una coda semplice
     std::deque<std::pair<int, int>> q;
     std::vector<int> largest(v.size());
 

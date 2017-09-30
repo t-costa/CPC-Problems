@@ -67,12 +67,6 @@ void unsorted_top_k(std::vector<int>& v, int k, int left, int right, std::vector
             unsorted_top_k(v, k, left, pos-1, acc);
         } else unsorted_top_k(v, k, std::min(pos+1, right), std::max(pos+1, right), acc);
     }
-//    } else {
-//        //all the k elements are in acc, print them
-//        acc.push_back(v[left]);
-//        print_values(acc);
-//    }
-
 }
 
 std::vector<int> sorted_top_k(std::vector<int>& v, int k){
@@ -114,7 +108,7 @@ int main() {
     test2.reserve(size);
 
     srand (time(nullptr));
-
+    //random input just to test the functions
     for (int i=0; i<size; ++i){
         val = std::rand()%1000;
         test.push_back(val);
@@ -126,9 +120,11 @@ int main() {
 
     std::vector<int> acc;
     acc.reserve(k);
-    unsorted_top_k(test, k, 0, test.size()-1, acc);
+    
+    unsorted_top_k(test, k, 0, test.size()-1, acc); //test is modified
     std::vector<int> top = sorted_top_k(test2, k);
-    std::sort(acc.begin(), acc.end());
+    
+    std::sort(acc.begin(), acc.end());  //just for the assert function below
 
     assert (std::equal(acc.begin(), acc.end(), top.begin()));
 
