@@ -15,7 +15,7 @@ bool compare(couple a, couple b){
 
 void play(std::vector<couple>& v){
 
-    std::vector<short> final(v.size(), 0);   //allocated and initialized to zero
+    std::vector<short> final(v.size(), 0);   //initialized to zero
     int max_combo;
     int distinct = 0;
     bool duplicated = false;
