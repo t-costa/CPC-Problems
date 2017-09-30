@@ -1,9 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <stack>
-#include <tuple>
-#include <map>
-#include <unordered_map>
 #include <algorithm>
 #include <math.h>
 
@@ -21,13 +17,12 @@ void megacity(std::vector<std::pair<double, int>>& v, int people){
         return;
     }
 
-    std::sort(v.begin(), v.end(), compare); //TODO: CHECK
+    std::sort(v.begin(), v.end(), compare);
 
     std::vector<std::pair<double, int>>::iterator iter;
     double radius = 0;
     iter = v.begin();
     while (iter != v.end() && missing > 0){
-        //std::get<0>(v[0]);
         radius = std::get<0>(*iter.base());
         missing -= std::get<1>(*iter.base());
         iter++;
@@ -37,9 +32,6 @@ void megacity(std::vector<std::pair<double, int>>& v, int people){
         std::cout.precision(8);
         std::cout << radius << std::endl;
     } else std::cout << "-1\n"; //not reach N
-
-
-
 }
 
 int main() {
