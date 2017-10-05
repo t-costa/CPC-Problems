@@ -15,7 +15,7 @@ bool compare(couple a, couple b){
 
 void play(std::vector<couple>& v){
 
-    std::vector<short> final(v.size(), 0);   //allocated and initialized to zero
+    std::vector<short> final(v.size(), 0);   //initialized to zero
     int max_combo;
     int distinct = 0;
     bool duplicated = false;
@@ -24,22 +24,19 @@ void play(std::vector<couple>& v){
 
     std::sort(v.begin(), v.end(), compare);
 
-
     for (short i = 0; i<v.size(); ++i){
         if (last == v[i].value){
             if (!duplicated) {  //just a couple, it's ok
                 final[v[i].index] = pos;
                 distinct++;
                 duplicated = true;
-                if (pos == 1) pos = 2;
-                else pos = 1;
+                pos = (pos % 2) + 1;
             }
         } else {
             duplicated = false;
             distinct++;
             final[v[i].index] = pos;
-            if (pos == 1) pos = 2;
-            else pos = 1;
+            pos = (pos % 2) + 1;
         }
         last = v[i].value;
     }
@@ -47,8 +44,7 @@ void play(std::vector<couple>& v){
         if (final[v[i].index] == 0) {
             //set it
             final[v[i].index] = pos;
-            if (pos == 1) pos = 2;
-            else pos = 1;
+            pos = (pos % 2) + 1;
         }
         //else it has already be set before
     }
@@ -58,11 +54,10 @@ void play(std::vector<couple>& v){
     //   ^   they are equivalent   v
     max_combo = (distinct / 2) * (distinct - distinct / 2);
     std::cout << max_combo << std::endl;
-    for (auto el : final){
+    
+    for (auto el : final)
         std::cout << el << " ";
-    }
     std::cout << std::endl;
-
 }
 
 
