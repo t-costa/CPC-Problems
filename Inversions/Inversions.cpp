@@ -28,7 +28,7 @@ void merge(std::vector<long long>& v, unsigned int left, unsigned int right){
     }
 
     if (swapped > 0) {
-		//there has been a modification
+	//there has been a modification
         while (i <= center){
             aux.push_back(v[i]);
             i++;
@@ -39,7 +39,7 @@ void merge(std::vector<long long>& v, unsigned int left, unsigned int right){
             j++;
         }
 
-		//report the modification to the original array
+	//report the modification to the original array
         for (int val : aux){
             v[left] = val;
             left++;
