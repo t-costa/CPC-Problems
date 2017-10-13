@@ -12,12 +12,10 @@ void buildMax(std::vector<short>::iterator start, std::vector<short>::iterator e
     //sort in decreasing order
     for (int i=9; i>=0; --i){
         while (counter[i] > 0) {
-            *start = i;
             counter[i]--;
-            start++;
+            std::cout << i << "";
         }
     }
-
 }
 
 int main() {
@@ -53,16 +51,13 @@ int main() {
             number[posLeastEven] = number[number.size()-1];
             number[number.size()-1] = tmp;
             buildMax(number.begin(), number.end()-1);
+            std::cout << tmp << std::endl;
         } else {
             //all odd numbers, no need for swap
             buildMax(number.begin(), number.end());
+            std::cout << std::endl;
         }
 
-
-        for (int v : number)
-            std::cout << v << "";
-
-        std::cout << std::endl;
         //restore variables
         posLeastEven = -1;
         number.clear();
