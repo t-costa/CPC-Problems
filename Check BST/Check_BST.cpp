@@ -35,13 +35,6 @@ bool isBST(Node* root){
 }
 */
 
-// bool check(Node* root, int min, int max) {
-// if (!root) return true; // root is a leaf
-// if (root->data < min or root->data > max) return false;
-// return check(root->left, min, root->data - 1) and
-// check(root->right, root->data + 1, max);
-// }
-
 bool check_BST(Node* node, int min, int max){
     if (node == nullptr) return true;
     if (node->data < min || node->data > max) return false;
