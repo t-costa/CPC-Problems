@@ -20,7 +20,6 @@ bool checkPrime(int n){
         i += 2;
 
     return (i > stop);
-
 }
 
 int getCanFire(std::vector<Node>& v, int root){
@@ -50,7 +49,6 @@ int getCanFire(std::vector<Node>& v, int root){
             depth++;
             number_children = (int) q.size();
         }
-
     }
 
     return count;
@@ -85,11 +83,10 @@ int main() {
                 test[val].child.push_back(j-1);
             }
         }
-
+        
         std::cout << getCanFire(test, root) << std::endl;
         test.clear();
     }
-
 
     return 0;
 }
