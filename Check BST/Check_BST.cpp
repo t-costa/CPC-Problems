@@ -1,7 +1,12 @@
+/*
 struct Node {
     int data;
     Node* left, *right;
 };
+*/
+/*
+
+//Computes every time min and max for each node, total complexity O(n*height)
 
 int getMin(Node* n){
     while (n->left != nullptr)
@@ -27,4 +32,25 @@ bool isBST(Node* root){
         return isBST(root->left) && isBST(root->right);
     else return false;
 
+}
+*/
+
+// bool check(Node* root, int min, int max) {
+// if (!root) return true; // root is a leaf
+// if (root->data < min or root->data > max) return false;
+// return check(root->left, min, root->data - 1) and
+// check(root->right, root->data + 1, max);
+// }
+
+bool check_BST(Node* node, int min, int max){
+    if (node == nullptr) return true;
+    if (node->data < min || node->data > max) return false;
+    
+    return check_BST(node->left, min, node->data-1) &&      //the value must be between the minimum and the father
+        check_BST(node->right, node->data+1, max);          //the value must be between the father and the maximum
+}
+
+
+bool isBST(Node* root){
+    return check_BST(root, 1, 1000);    //from constraint
 }
