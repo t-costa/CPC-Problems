@@ -16,7 +16,7 @@ void print_value(std::vector<int64_t> const& v, int pos) {
 
     while (pos > 0) {
         val += v[pos];
-        pos -= (pos & -pos);
+        pos -= (pos & -pos);    //get prefix sum
     }
 
     std::cout << val << std::endl;
