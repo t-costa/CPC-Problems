@@ -72,15 +72,15 @@ int main() {
 
         initialize(test, n);
 
-        for (int j=1; j<=n; ++j){
+        for (int j=0; j<n; ++j){
             std::cin >> val;
             if (val == 0) {
-                root = j-1;
+                root = j;
                 //the values are useless
             } else {
                 //I have to save which are the children of the node
                 --val;  //to stay between 0 and n
-                test[val].child.push_back(j-1);
+                test[val].child.push_back(j);
             }
         }
         
