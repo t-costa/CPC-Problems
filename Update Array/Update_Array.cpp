@@ -4,7 +4,7 @@
 
 void update(std::vector<int64_t> &v, int pos, int val) {
 
-    while (pos <= (int) v.size()) {
+    while (pos < (int) v.size()) {
         v[pos] += val;
         pos += (pos & -pos);    //update next element
     }
