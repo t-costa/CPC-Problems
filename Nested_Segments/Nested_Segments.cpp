@@ -32,7 +32,7 @@ void update(std::vector<int> &v, int pos) {
 
     while (pos < (int) v.size()) {
         v[pos] += 1;
-        pos += (pos & -pos);    //update next element
+        pos += (pos & -pos);
     }
 }
 
@@ -52,17 +52,14 @@ void solve(std::vector<segment> const& v) {
 
     std::vector<int> bit(v.size() + 1, 0);
     std::vector<long int> sol(v.size(), 0);
-    //bit.reserve(max);
 
     for (auto a : v){
-        long int val = get_value(bit, a.right);
+        sol[a.pos] = get_value(bit, a.right);
         update(bit, a.right);
-        sol[a.pos] = val;
     }
 
-    for (auto n : sol) {
+    for (auto n : sol)
         std::cout << n << std::endl;
-    }
 }
 
 int main() {
