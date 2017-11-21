@@ -13,7 +13,6 @@ struct node{
 
 //to access position for character a -> a-97
 
-std::set<char> alphabet;
 std::vector<node> new_alphabet;
 std::vector<char> result;
 bool error = false;
@@ -68,7 +67,7 @@ bool topological_sort() {
         q.pop();
         result.push_back(n->value);
         for (auto& c : n->children) {
-            c->has_incoming--; //logically remove edge
+            c->has_incoming--;  //logically remove edge
             if (c->has_incoming == 0)
                 q.push(c);
         }
@@ -79,29 +78,22 @@ bool topological_sort() {
 }
 
 int main() {
-    std::vector<std::string> words;
-
     size_t n;
     std::cin >> n;
-    words.reserve(n);
-
-    for (int i=97; i<123; ++i){
-        alphabet.insert((char) i);
+    
+    for (int i=97; i<123; ++i)
         new_alphabet.emplace_back(node {(char) i, 0, {}});
-    }
-
-    for (int i=0; i<n; ++i) {
-        std::string s;
-        std::cin >> s;
-        words.push_back(s);
-    }
-
-    for (int i=0; i<n-1; ++i) {
-        build_alphabet(words[i], words[i+1]);
+    
+    std::string s1, s2;
+    std::cin >> s1;
+    for (int i=1; i<n; ++i) {
+        std::cin >> s2;
+        build_alphabet(s1, s2);
         if (error) {
             std::cout << "Impossible";
             return 0;
         }
+        s1 = s2;
     }
 
     if (topological_sort())
