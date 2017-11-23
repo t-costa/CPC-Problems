@@ -10,7 +10,6 @@ struct employee {
     std::vector<int> edges;
 };
 
-
 void bfs(std::vector<employee>& g, int index) {
 
     std::queue<employee*> q;
@@ -34,7 +33,6 @@ void bfs(std::vector<employee>& g, int index) {
 int count_SCC(std::vector<employee>& g) {
 
     //bfs, every time I have to look for another scc, increment variable
-
     int scc = 0;
 
     for (int i=0; i<g.size(); ++i) {
@@ -45,7 +43,6 @@ int count_SCC(std::vector<employee>& g) {
     }
 
     return scc;
-
 }
 
 int main() {
@@ -73,9 +70,10 @@ int main() {
     }
 
     int counter = 0;
-    for (auto emp : employees) {
-        if (emp.edges.empty()) counter++;
-    }
+    for (auto emp : employees) 
+        if (emp.edges.empty()) 
+            counter++;
+    
     if (counter == employees.size()){   //all isolated nodes
         int i=0;
         while (i<employees.size()) {

@@ -5,25 +5,25 @@ bool error = false;
 
 void dfs_visit(int start, int G[][MAX], int V) {
 	int i = 0;
-	
+
 	while (!error && i < V) {
-        if (G[start][i]) {
-            if (colors.find(i) == colors.end()) {
-                //not visited
-                colors[i] = !colors[start];
-                dfs_visit(i, G, V);
-            } else
-                if (colors[i] == colors[start])
-                  	//2 coloring not possible
-                    error = true;
-        }
-		i++;
-    }
+	if (G[start][i]) {
+	    if (colors.find(i) == colors.end()) {
+		//not visited
+		colors[i] = !colors[start];
+		dfs_visit(i, G, V);
+	    } else
+		if (colors[i] == colors[start])
+			//2 coloring not possible
+		    error = true;
+	}
+	i++;
+	}
 }
 
 void dfs(int start, int G[][MAX], int V) {
 	int i = 0;
-    colors[start] = true;
+    	colors[start] = true;
 
 	while (!error && i<V) {
         if (G[start][i]) { 
@@ -32,9 +32,9 @@ void dfs(int start, int G[][MAX], int V) {
                 dfs_visit(i, G, V);
             } else
                 if (colors[i] == colors[start]) 
-					error = true;
+			error = true;
         }
-		i++;
+	i++;
     }
 }
 
