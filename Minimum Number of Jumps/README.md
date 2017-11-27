@@ -5,7 +5,7 @@ To find the minimum number of jumps to go from the beginning to the end of the a
 
 1. It initializes the `max_jump` to the value of the first element of the array;
 2. It searches the maximum value in the range [starting position + 1, starting position + `max_jump`], and sets `max_jump` to the new maximum found;
-3. It repeat the second step until the end of the array is reached.
+3. It repeats the second step until the end of the array is reached.
 
 This works because we can do less jumps than our current maximum, so we can search among all the elements in the interval and find a new maximum in case we don't reach the end of the array, and choosing the maximum permits to reach the end of the array as soon as possible.
 
