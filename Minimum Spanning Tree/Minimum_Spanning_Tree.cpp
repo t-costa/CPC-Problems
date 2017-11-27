@@ -90,7 +90,6 @@ int main() {
         set.make_set(v);
     }
 
-    //sort graph in increasing order of weight
     std::sort(graph.begin(), graph.end(),
               [](edge const& a, edge const& b) -> bool {
                   return (a.w < b.w);
