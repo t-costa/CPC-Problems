@@ -10,4 +10,4 @@ If we do the computation `Ks·Ks·s` in a naive way, the algorithm would be too 
 Once we have the answer for a query, we just use the previously saved index to store the result in a vector, then we just have to scan that vector to recover all the answers in the correct order.
 
 ### Complexity
-The time complexity of the algorithm is `O((m+n)\sqrt{n})` with `m` queries and `n` elements, since we use Mo's algorithm, while the space complexity is `O(n)` to store the support counter vector.
+The time complexity of the algorithm is `O((m+n)*n^(1/2))` with `m` queries and `n` elements, since we use Mo's algorithm, while the space complexity is `O(n)` to store the support counter vector.
