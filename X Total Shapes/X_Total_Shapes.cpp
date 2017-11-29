@@ -55,13 +55,13 @@ int count_match(int row, int col_start, int col_end) {
                 space_found = true;
             }
             if (!space_found) {
-                //hole between xs
+                //hole between Xs
                 space_found = true;
             }
         }
     }
-    if (id_up_block != -1) return id_up_block;    //id of the unified block
-    else return ++id;   //new id for a new block
+    if (id_up_block != -1) return id_up_block;      //id of the unified block
+    else return ++id;                               //new id for a new block
 }
 
 int main() {
