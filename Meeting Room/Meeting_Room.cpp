@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 
+
 struct meeting{
     int start;
     int finish;
@@ -37,6 +38,7 @@ int main() {
             std::cin >> s;
             time.emplace_back(meeting {s, 0, j+1});
         }
+        
         for (int j=0; j<n; ++j) {
             std::cin >> f;
             time[j].finish = f;

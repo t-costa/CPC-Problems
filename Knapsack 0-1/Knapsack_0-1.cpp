@@ -8,9 +8,8 @@ int knapsack(std::vector<int> const& v, std::vector<int> const& w, int W) {
 
     //matrix[values][weight]
 
-    for (int i=0; i<=W; ++i) {
+    for (int i=0; i<=W; ++i) 
         matrix[0][i] = 0;
-    }
 
     //v and w starts from 0
     for (int i=1; i<=v.size(); ++i) {
@@ -53,9 +52,7 @@ int main() {
         }
 
         std::cout << knapsack(v, w, w_max) << std::endl;
-
     }
-
 
     return 0;
 }

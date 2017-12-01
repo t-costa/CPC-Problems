@@ -69,7 +69,7 @@ int main() {
 
     //suffix_sum[i] == f(i, n, test[i])
     //bit counts the number of equal elements in suffix_sum
-    //bit[i] == x -> there are x entries in suffix_sum equal to x
+    //bit[i] == x -> there are x entries in suffix_sum equal to i
 
     std::fill(counter.begin(), counter.end(), 0);
 

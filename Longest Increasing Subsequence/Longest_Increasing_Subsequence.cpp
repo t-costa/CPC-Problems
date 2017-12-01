@@ -43,6 +43,7 @@ int main() {
             std::cin >> val;
             s.push_back(val);
         }
+        
         if (n > 0)
             std::cout << lis(s) << std::endl;
         else

@@ -70,9 +70,8 @@ int main() {
     int32_t test[n];
     bucket_size = (size_t) sqrt(n);
 
-    for (size_t i=0; i<n; ++i){
+    for (size_t i=0; i<n; ++i)
         std::cin >> test[i];
-    }
 
     for (size_t i=0; i<t; ++i){
         std::cin >> l >> r;
