@@ -17,21 +17,27 @@ int jump(std::vector<int> const& v) {
 
         int max = 0, i = 1;
         while (!end_reached && i <= max_jump) {
-            if (pos + i == v.size() - 1)
+            if (pos + i == v.size() - 1) {
                 end_reached = true;
-            else {
-                if (v[pos+i] > max) {
-                    max = v[pos+i];
+            } else {
+                //current position + hypothetical jump + value next jump
+                if (pos + i + v[pos+i] >= max) {
+                    max = pos + i + v[pos+i];
                     jump = i;
                 }
             }
+
             i++;
         }
 
         if (max > 0)
             total_jump++;
-        else
-            return -1;
+        else {
+            if (!end_reached)
+                return -1;
+            else
+                total_jump++;
+        }
 
         if (!end_reached) {
             pos += jump;
