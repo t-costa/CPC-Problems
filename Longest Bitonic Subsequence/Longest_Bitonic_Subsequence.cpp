@@ -22,12 +22,6 @@ std::vector<int> lis(std::vector<int> const& s) {
 
 
     return lis;
-//    int max = 0;
-//    for (auto m : lis)
-//        if (m > max)
-//            max = m;
-//
-//    return max;
 }
 
 int main() {
@@ -49,8 +43,8 @@ int main() {
         std::vector<int> inc = lis(s);
 
         std::reverse(s.begin(), s.end());
-
         std::vector<int> dec = lis(s);
+        
         std::reverse(dec.begin(), dec.end());
 
         int max = inc[0] + dec[0];
