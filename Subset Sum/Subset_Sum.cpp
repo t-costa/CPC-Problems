@@ -9,7 +9,10 @@ bool sub_sum(std::vector<int> const& set, int sum) {
     //check if it is possible to sum to exactly half the total sum
 
     char m[set.size()+1][sum+1];
-
+    
+    // m[i-th element of the set][partial sum] == 1 
+    // <=> it is possible to sum to partial sum with some elements from 0 to i in the set
+    
     for (int i=0; i<=sum; ++i)
         m[0][i] = 0;
 
@@ -33,7 +36,6 @@ bool sub_sum(std::vector<int> const& set, int sum) {
     }
 
     return m[set.size()][sum];
-
 }
 
 int main() {
