@@ -34,7 +34,7 @@ void cover(node& root) {
             root.covered = true;    //no child is covered
     }
     */
-
+    //rewritten by the editor
     root.covered = root.children.size() == 1 && !root.is_root ||
                     !std::any_of(root.children.begin(), root.children.end(),
                                  [](node* n) {

@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 
-std::vector<std::pair<int, int>> build_again(std::vector<int>& deg, std::vector<int>& sum) {
+std::vector<std::pair<int, int>> build(std::vector<int>& deg, std::vector<int>& sum) {
 
     std::vector<std::pair<int, int>> edges;
     std::deque<int> leaf;
@@ -14,7 +14,6 @@ std::vector<std::pair<int, int>> build_again(std::vector<int>& deg, std::vector<
     for (int i=0; i<deg.size(); ++i)
         if (deg[i] == 1)
             leaf.push_back(i);
-
 
     while (!leaf.empty()) {
         int i = leaf.front();
@@ -31,9 +30,10 @@ std::vector<std::pair<int, int>> build_again(std::vector<int>& deg, std::vector<
         //decrement degree of pointed node and myself
         deg[sum[i]]--;
 
-        if (deg[sum[i]] == 1)
+        if (deg[sum[i]] == 1){
             //new leaf
             leaf.push_back(sum[i]);
+        }
 
         leaf.pop_front();
     }
@@ -48,7 +48,6 @@ int main() {
 
     std::cin >> n;
 
-    //std::vector<node> graph;
     std::vector<int> degree;
     std::vector<int> sum;
     degree.reserve((size_t) n);
@@ -60,13 +59,12 @@ int main() {
         sum.push_back(s);
     }
 
-    auto v = build_again(degree, sum);
+    auto v = build(degree, sum);
 
     std::cout << v.size() << std::endl;
 
     for (auto c : v)
         std::cout << c.first << " " << c.second << "\n";
-
 
     return 0;
 }

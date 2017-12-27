@@ -5,13 +5,11 @@ int lps(std::string const& s) {
 
     int m[s.size()][s.size()];
 
-    for (int i=0; i<s.size(); ++i) {
+    for (int i=0; i<s.size(); ++i)
         m[i][i] = 1;
-    }
 
-    for (int i=1; i<s.size()-1; ++i) {
+    for (int i=1; i<s.size()-1; ++i)
         m[i][i-1] = 0;
-    }
 
     //zig zag filling
     int k = 1, i = 0, j = 1;
@@ -20,8 +18,10 @@ int lps(std::string const& s) {
             m[i][j] = std::max(m[i+1][j], m[i][j-1]);
         else
             m[i][j] = m[i+1][j-1] + 2;
+        
         i++;
         j++;
+        
         if (j == s.size()) {
             k++;
             j = k;
