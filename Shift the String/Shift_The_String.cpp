@@ -19,7 +19,6 @@ std::vector<int> kmp_pi(std::string const& s) {
 
         //i goes from 1 to n-1 => I want 2 to n
         pi[i+1] = k;
-
     }
 
     return pi;
