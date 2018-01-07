@@ -40,10 +40,18 @@ In the second case, we have to modify the values of `eat` of the representative 
 - `x` and `y` belong to the same group;
 - `y` eats `x`.
 
-Otherwise, the operation is valid, so let `a = eaten[x]`, `b = eat[x]`, `c = eaten[y]`, `d = eat[y]`, we can deduce that `b` and `y` belong to the same set
+Otherwise, the operation is valid, so let `a = eaten[x]`, `b = eat[x]`, `c = eaten[y]`, `d = eat[y]`, we can deduce that `b` and `y` belong to the same set, `x` and `c` belong to the same set and also `a` and `d`. When we unify two sets, we update the value of the representative only if it is `-1`, since otherwise or it has already the correct value, or the two elements point to different elements but that will be unified later, and since we read the values of `eat` and `eaten` only with the operation `find_set(x)` which retrievies the representative of the element `x`, it's not a problem.  
+Then we can add the new information, so we update `eat[x] = y` and `eaten[y] = x` and we check if we have formed a triple `a->x->y` or `x->y->a` and, if so, we close it.
+
+
+#### Example new_eater
+Using the same simbols as the preceding example, in the first image we represent the initial situation in the most complex case, and in the second image we show how the two triples will be combined at the end. Also in this case we assume that every chain of three elements is closed, and we have showed how we assure that this property holds, both in the case of the unify and in the case of a new eater.
 
 
 ![new_eater](https://github.com/t-costa/CPC-Problems/blob/master/Strange%20Food%20Chain/new_eater.png)
 ![new_eater2](https://github.com/t-costa/CPC-Problems/blob/master/Strange%20Food%20Chain/new_eater%202.png)
 
 ### Complexity
+The algorithm is based on the disjoint set data structure, so the total time complexity for a set of `n` elements and `m` queries is `O(m*alpha(n))`. The additional vectors `eat` and `eaten` don't increase the total time complexity, since they add only a constant number of operations.
+
+The space complexity of the algorithm is `O(n)`, to keep the vector of the elements, `eat` and `eaten`.
