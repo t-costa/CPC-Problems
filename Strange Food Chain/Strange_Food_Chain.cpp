@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 
 class Disjoint_Set {
 
@@ -196,13 +195,11 @@ int main() {
                 case 1 :
                     if (!set.unify(x, y))
                         n_false++;
-
                     break;
 
                 case 2 :
                     if (!set.new_eater(x, y))
                         n_false++;
-
                     break;
 
                 default:
