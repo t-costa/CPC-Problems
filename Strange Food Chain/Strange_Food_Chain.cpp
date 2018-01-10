@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 
 class Disjoint_Set {
 
@@ -20,11 +19,11 @@ private:
             return std::make_pair(find_set(x), find_set(y));
 
         if (set[x].rank > set[y].rank) {
-            set[y].parent = set[x].parent;
+            set[y].parent = x;
             return std::make_pair(x, y);
         }
         else {
-            set[x].parent = set[y].parent;
+            set[x].parent = y;
             if (set[x].rank == set[y].rank)
                 set[y].rank++;
             return std::make_pair(y, x);
@@ -116,22 +115,17 @@ public:
                 c1 != -1 && c1 == find_set(eaten[y1]) ||
                 d1 != -1 && d1 == find_set(eat[y1]))
             return false;
-
-        int a = eaten[x1];
-        int b = eaten[y1];
-        int c = eat[x1];
-        int d = eat[y1];
-
+        
         auto rep = link(x1, y1);
 
         if (unify_after_unify(eaten[x1], eaten[y1])) {
             //update who eats the representative
-            eaten[rep.first] = find_set(a);
+            eaten[rep.first] = find_set(eaten[x1]);
         }
 
         if (unify_after_unify(eat[x1], eat[y1])) {
             //updates who is eaten by the representative
-            eat[rep.first] = find_set(c);
+            eat[rep.first] = find_set(eat[x1]);
         }
 
         //if a->(x-y)->b => b->a
@@ -196,13 +190,11 @@ int main() {
                 case 1 :
                     if (!set.unify(x, y))
                         n_false++;
-
                     break;
 
                 case 2 :
                     if (!set.new_eater(x, y))
                         n_false++;
-
                     break;
 
                 default:
