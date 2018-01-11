@@ -6,10 +6,8 @@
 struct node {
     uint32_t value;
     std::vector<size_t> children;
-    size_t size;
     size_t index_flat;
-    bool visited_size;
-    bool visited_build;
+    bool visited;
 };
 
 struct flat_node {
@@ -32,32 +30,22 @@ uint32_t res[100001];
 size_t sqn;
 size_t index_flat = 0;
 
-void build_tree(node& n ,std::vector<flat_node>& tree) {
 
-    if (n.visited_build)
-        return;
+size_t build_all(node& n ,std::vector<flat_node>& tree) {
+    if (n.visited)
+        return 0;
 
-    tree.emplace_back(flat_node {n.value, n.size});
+    n.visited = true;
+
+    tree.emplace_back(flat_node {n.value, 1});
+    flat_node& node = tree.back();
     n.index_flat = index_flat;
     index_flat++;
 
-    n.visited_build = true;
-
     for (auto c : n.children)
-        build_tree(test[c], tree);
-}
+        node.size += build_all(test[c], tree);
 
-size_t get_size(node& n) {
-
-    if (n.visited_size)
-        return 0;
-
-    n.visited_size = true;
-
-    for (auto c : n.children)
-        n.size += get_size(test[c]);
-
-    return n.size;
+    return node.size;
 }
 
 void add_node(uint32_t val) {
@@ -71,7 +59,6 @@ void remove_node(uint32_t val) {
 }
 
 void solve(std::vector<flat_node> const& tree) {
-
     size_t last_start = 0;
     size_t last_stop = 0;
 
@@ -120,7 +107,7 @@ int main() {
 
     for (size_t i=0; i<n; ++i) {
         std::cin >> val;
-        test.emplace_back(node {val, {}, 1, 0, false, false});
+        test.emplace_back(node {val, {}, 0, false});
     }
 
     for (size_t i=1; i<n; ++i) {
@@ -135,17 +122,16 @@ int main() {
 
     std::vector<flat_node> tree;
     tree.reserve(n);
-
-    get_size(test[0]);
-
-    build_tree(test[0], tree);
+    
+    build_all(test[0], tree);
 
     for (size_t i=0; i<m; ++i){
         std::cin >> l >> val;
         //l goes from 1 to n
         --l;
-        queries.emplace_back(query {val, test[l].index_flat,
-                                    test[l].index_flat + tree[test[l].index_flat].size, i});
+        size_t start = test[l].index_flat;
+        queries.emplace_back(query {val, start,
+                                    start + tree[start].size, i});
     }
 
     std::sort(queries.begin(), queries.end(),
