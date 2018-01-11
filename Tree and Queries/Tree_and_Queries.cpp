@@ -8,7 +8,8 @@ struct node {
     std::vector<size_t> children;
     size_t size;
     size_t index_flat;
-    bool visited;
+    bool visited_size;
+    bool visited_build;
 };
 
 struct flat_node {
@@ -26,22 +27,21 @@ struct query {
 std::vector<node> test;
 std::vector<query> queries;
 std::unordered_map<uint32_t, uint32_t> map_cnt;
-std::unordered_map<uint32_t, uint32_t> map_MAP;
+std::unordered_map<uint32_t, uint32_t> map_res;
 uint32_t res[100001];
-size_t index_tree[100001];
 size_t sqn;
 size_t index_flat = 0;
 
 void build_tree(node& n ,std::vector<flat_node>& tree) {
 
-    if (n.visited)
+    if (n.visited_build)
         return;
 
     tree.emplace_back(flat_node {n.value, n.size});
     n.index_flat = index_flat;
     index_flat++;
 
-    n.visited = true;
+    n.visited_build = true;
 
     for (auto c : n.children)
         build_tree(test[c], tree);
@@ -49,10 +49,10 @@ void build_tree(node& n ,std::vector<flat_node>& tree) {
 
 size_t get_size(node& n) {
 
-    if (n.visited)
+    if (n.visited_size)
         return 0;
 
-    n.visited = true;
+    n.visited_size = true;
 
     for (auto c : n.children)
         n.size += get_size(test[c]);
@@ -62,11 +62,11 @@ size_t get_size(node& n) {
 
 void add_node(uint32_t val) {
     map_cnt[val]++;
-    map_MAP[map_cnt[val]]++;
+    map_res[map_cnt[val]]++;
 }
 
 void remove_node(uint32_t val) {
-    map_MAP[map_cnt[val]]--;
+    map_res[map_cnt[val]]--;
     map_cnt[val]--;
 }
 
@@ -75,20 +75,9 @@ void solve(std::vector<flat_node> const& tree) {
     size_t last_start = 0;
     size_t last_stop = 0;
 
-    //for (auto q : queries) {
-
-    auto q1 = queries[0];
-    for (size_t i=q1.start; i<q1.end; ++i)
-        add_node(tree[i].value);
-    res[q1.index] = map_MAP[q1.val];
-    last_start = q1.start;
-    last_stop = q1.end;
-
-    for (size_t i=1; i<queries.size(); ++i){
-        auto q = queries[i];
+    for (auto q : queries) {
 
         size_t start = q.start;
-        //size_t stop = start + tree[start].size;
         size_t stop = q.end;
 
         while (last_start < start) {
@@ -113,7 +102,7 @@ void solve(std::vector<flat_node> const& tree) {
             remove_node(tree[--last_stop].value);
         }
 
-        res[q.index] = map_MAP[q.val];
+        res[q.index] = map_res[q.val];
     }
 }
 
@@ -131,7 +120,7 @@ int main() {
 
     for (size_t i=0; i<n; ++i) {
         std::cin >> val;
-        test.emplace_back(node {val, {}, 1, 0, false});
+        test.emplace_back(node {val, {}, 1, 0, false, false});
     }
 
     for (size_t i=1; i<n; ++i) {
@@ -149,20 +138,14 @@ int main() {
 
     get_size(test[0]);
 
-    for (auto& p : test)
-        p.visited = false;
-
     build_tree(test[0], tree);
-
-    for (size_t i=0; i<n; ++i) {
-        index_tree[i] = test[i].index_flat;
-    }
 
     for (size_t i=0; i<m; ++i){
         std::cin >> l >> val;
+        //l goes from 1 to n
         --l;
-        queries.emplace_back(query {val, index_tree[l],
-                                    index_tree[l] + tree[index_tree[l]].size, i});
+        queries.emplace_back(query {val, test[l].index_flat,
+                                    test[l].index_flat + tree[test[l].index_flat].size, i});
     }
 
     std::sort(queries.begin(), queries.end(),
@@ -176,7 +159,6 @@ int main() {
 
     for (size_t j=0; j<m; ++j)
         std::cout << res[j] << "\n";
-
-
+    
     return 0;
 }
