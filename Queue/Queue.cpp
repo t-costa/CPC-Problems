@@ -7,10 +7,9 @@ std::vector<int> generate_heights(std::vector<std::pair<std::string, int>> const
     std::vector<int> heights(v.size());
 
     for (size_t i=0; i<v.size(); ++i) {
-        int len =(int) i - v[i].second;
+        int len = (int) i - v[i].second;
         if (len < 0) {
             //not possible
-            std::cout << "-1" << std::endl;
             heights.clear();
             return heights;
         }
@@ -47,8 +46,10 @@ int main() {
 
     std::vector<int> heights = generate_heights(clients);
 
-    if (heights.empty())
+    if (heights.empty()) {
+        std::cout << "-1" << std::endl;
         return 0;
+    }
 
     for (size_t i=0; i<n; ++i)
         std::cout << clients[i].first << " " << heights[i] << std::endl;
