@@ -1,5 +1,9 @@
 # Pashmak and Parmida
 
+[codeforces](http://codeforces.com/contest/459/problem/D)
+
+## Solution with BIT
+
 ### Description
 After receiving the elements in input, the algorithm remaps them in a range from 1 to n and creates three other vectors: `counter` which will store the number of occurences of an element, `suffix_sum` which in position `i` will contain the value of `f(i, n, i-th element)`, and `bit` which is a Fenwick tree with the property that `bit[i] = x` means that there are `x` entries in `suffix_sum` equal to `i`. This vectors will be filled scanning the elements from right to left.
 
@@ -11,3 +15,12 @@ At this point, we have all the values we need in `counter` and `bit`, so we just
 The time complexity of the algorithm is `O(n*log(n))`, since we have to sort the element to remap them and we have to perform `O(n)` operations over a BIT that have a logarithmic cost.
 
 The space complexity is `O(n)`, since we store three more vectors, and all the vectors have at most `O(n)` elements. Notice that without the remapping the space complexity could be very large, since we need to index a vector with the value of the elements in input. 
+
+
+## Solution with Segment Tree
+
+### Description
+The problem is solved in exactly the same way, the only difference is that now we have to build a segment tree complete on left which will store the sum of the values of `suffix_sum`. So we can use the segment tree as we used the BIT in the other solution, retrieving efficiently the sum of the desired values.
+
+### Complexity
+The time and space complexity is the same as for the BIT solution: `O(n*log(n))` and `O(n)`.
