@@ -1,6 +1,6 @@
 # Minimum Spanning Tree
 
-[sopj](http://www.spoj.com/problems/MST/)
+[spoj](http://www.spoj.com/problems/MST/)
 
 ### Description
 This is the standard algorithm used to find the MST: we use the disjoint set data structure to store every vertex of the graph as individual sets; then we sort the edges of the graph in increasing order w.r.t. the weight.  
