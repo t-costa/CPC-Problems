@@ -37,7 +37,7 @@ int main() {
         std::cin >> n >> w_max;
 
         v.reserve((size_t) n);
-        v.reserve((size_t) n);
+        w.reserve((size_t) n);
 
         for (int j=0; j<n; ++j) {
             int val;
