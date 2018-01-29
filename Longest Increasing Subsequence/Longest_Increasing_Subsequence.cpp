@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <deque>
 
 
 int lis(std::vector<int> const& s) {
@@ -27,6 +28,47 @@ int lis(std::vector<int> const& s) {
     return max;
 }
 
+int binary_search(std::vector<int> const& v, int l, int r, int key) {
+
+    while (r-l > 1) {
+        int m = l + (r-l)/2;
+        if (v[m] >= key)
+            r = m;
+        else
+            l = m;
+    }
+
+    return r;
+}
+
+int optimized_lis(std::vector<int> const& s) {
+
+    std::vector<int> lis;
+    lis.reserve(s.size());
+
+    lis.push_back(s[0]);
+    int length = 1;
+    for (int i=1; i<s.size(); ++i) {
+        if (s[i] < lis.front()) {
+            //new smallest element
+            lis.front() = s[i];
+        } else {
+            if (s[i] > lis.back()) {
+                //biggest element increase longest sequence
+                lis.push_back(s[i]);
+                length++;
+            } else {
+                //element in the middle, search right position
+                int index = binary_search(lis, -1, length-1, s[i]);
+                lis[index] = s[i];
+            }
+        }
+    }
+
+    return length;
+
+}
+
 int main() {
 
     std::ios_base::sync_with_stdio(false);
@@ -43,9 +85,9 @@ int main() {
             std::cin >> val;
             s.push_back(val);
         }
-        
+
         if (n > 0)
-            std::cout << lis(s) << std::endl;
+            std::cout << optimized_lis(s) << std::endl;
         else
             std::cout << 0 << std::endl;
     }
