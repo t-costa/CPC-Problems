@@ -10,66 +10,103 @@
 struct segment {
     int left;
     int right;
-    int pos;
+    size_t pos;
 };
 
-struct node {
-    int val;
-    int left;
-    int right;
-    int div;
+template <class T>
+struct segment_tree {
+
+private:
+    struct node {
+        T val;
+        int left;
+        int right;
+        int div;
+    };
+
+    std::vector<node> tree;
+
+public:
+
+    explicit segment_tree(size_t n) {
+        size_t tree_size = 2 * n - 1;
+        tree.resize(tree_size);
+
+        auto h = (int) ceil(log2(n));
+        int i = 0;
+
+        if (1<<h == n) {
+            //n is already a power of 2
+            for (size_t j=tree_size-1; i<n; ++i, --j)
+                tree[j] = node {0, i, i, i};
+
+        } else {
+            int num_last_level = (int) tree_size - (int) std::pow(2, h) + 1;
+            int first = std::max((int) std::pow(2, h)-2, 2);    //for 3 elements
+
+            for (int j = first; i < n-num_last_level; ++i, --j)
+                tree[j] = node {0, i, i, i};
+
+
+            for (int j = (int) tree_size-1; i != n; ++i, --j)
+                tree[j] = node {0, i, i, i};
+        }
+
+        // set internal nodes
+        for (int j = (int) tree_size-1; j != 0; j -= 2)
+            tree[PARENT(j)] = node {0, tree[j].left, tree[j-1].right,
+                                    tree[j-1].left};
+
+    }
+
+    T get_val(int start, int query, T acc) {
+
+        //visit the tree recursively, if query>=right I reached the
+        //smallest interval that contains the searched interval, take the
+        //value stored and than increment it
+        if (tree[start].right <= query) {
+            acc += tree[start].val;
+            tree[start].val++;
+            return acc;
+        }
+
+        //div is the smallest element in the right subtree
+        if (query >= tree[start].div) {
+            //go right, it includes all the segments in the left child
+            acc += tree[LEFT(start)].val;
+            tree[start].val++;
+            return get_val(RIGHT(start), query, acc);
+        } else {
+            //go left, don't update acc
+            tree[start].val++;
+            return get_val(LEFT(start), query, acc);
+        }
+    }
 };
-
-
-bool compare_left(segment a, segment b) {
-    return (a.left > b.left);       //there are no segments that coincide
-}
-
-bool compare_right(segment a, segment b) {
-    return (a.right < b.right);     //there are no segments that coincide
-}
 
 void rearrange(std::vector<segment>& v) {
 
-    std::sort(v.begin(), v.end(), compare_right);
+    std::sort(v.begin(), v.end(),
+              [](segment const& a, segment const& b) -> bool {
+        return a.right < b.right;
+    });
 
     for (int i=0; i<v.size(); ++i)
-        v[i].right = i+1;
+        v[i].right = i;
 
-    std::sort(v.begin(), v.end(), compare_left);
+    std::sort(v.begin(), v.end(),
+              [](segment const& a, segment const& b) -> bool {
+        return a.left > b.left;
+    });
 }
 
-int get_val(std::vector<node>& tree, int start, int query, int acc) {
 
-    //visit the tree recursively, if query>=right I reached the
-    //smallest interval that contains the searched interval, take the
-    //value stored and than increment it
-    if (tree[start].right <= query) {
-        acc += tree[start].val;
-        tree[start].val++;
-        return acc;
-    }
-
-	//div is the smallest element in the right subtree
-    if (query >= tree[start].div) {
-        //go right, it includes all the segments in the left child
-        acc += tree[LEFT(start)].val;
-        tree[start].val++;
-        return get_val(tree, RIGHT(start), query, acc);
-    } else {
-        //go left, don't update acc
-        tree[start].val++;
-        return get_val(tree, LEFT(start), query, acc);
-    }
-
-}
-
-void solve(std::vector<segment> const& segments, std::vector<node>& tree) {
+void solve(std::vector<segment> const& segments, segment_tree<int>& tree) {
 
     std::vector<int> res(segments.size());
 
     for (auto s : segments)
-        res[s.pos] = get_val(tree, 0, s.right, 0);
+        res[s.pos] = tree.get_val(0, s.right, 0);
 
     for (auto r : res)
         std::cout << r << std::endl;
@@ -78,50 +115,22 @@ void solve(std::vector<segment> const& segments, std::vector<node>& tree) {
 int main() {
 
     std::ios_base::sync_with_stdio(false);
-    int n, l, r;
-    std::vector<node> tree;
+    size_t n;
+    int l, r;
     std::cin >> n;
 
-    int tree_size = 2 * n - 1;
-    tree.resize((size_t) tree_size);
-
-    auto h = (int) ceil(log2(n));
+    segment_tree<int> tree(n);
 
     std::vector<segment> segments;
-    segments.reserve((size_t) n);
+    segments.reserve(n);
 
-    for (int i=0; i<n; ++i) {
+    for (size_t i=0; i<n; ++i) {
         std::cin >> l >> r;
         segments.emplace_back(segment {l, r, i});
     }
 
     //sort and remap
     rearrange(segments);
-
-    int i = 0;
-
-    if ((int) std::pow(2, h) == n) {
-        //n is already a power of 2
-        for (int j=tree_size-1; i<n; ++i, --j){
-            tree[j] = node {0, i+1, i+1, i+1};
-        }
-    } else {
-        int num_last_level = tree_size - (int) std::pow(2, h) + 1;
-        int first = std::max((int) std::pow(2, h)-2, 2);    //for 3 elements
-        for (int j = first; i < n-num_last_level; ++i, --j) {
-            tree[j] = node {0, i+1, i+1, i+1};
-        }
-
-        for (int j = tree_size-1; i != n; ++i, --j) {
-            tree[j] = node {0, i+1, i+1, i+1};
-        }
-    }
-
-    // set internal nodes
-    for (int j = tree_size-1; j != 0; j -= 2) {
-        tree[PARENT(j)] = node {0, tree[j].left, tree[j-1].right, tree[j-1].left};
-    }
-
 
     solve(segments, tree);
 
