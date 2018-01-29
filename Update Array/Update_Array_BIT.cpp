@@ -1,54 +1,73 @@
 #include <iostream>
 #include <vector>
 
+template <class NumType>
+struct fenwick_tree {
 
-void update(std::vector<int64_t> &v, int pos, int val) {
+private:
 
-    while (pos < (int) v.size()) {
-        v[pos] += val;
-        pos += (pos & -pos);    //update next element
+    std::vector<NumType> bit;
+
+public:
+
+    explicit fenwick_tree(size_t n) : bit(n+1) { }
+
+    void update(size_t pos, NumType val) {
+
+        pos++;
+
+        while (pos < bit.size()) {
+            bit[pos] += val;
+            pos += (pos & -pos);
+        }
     }
-}
 
-void print_value(std::vector<int64_t> const& v, int pos) {
+    NumType get_value(size_t pos) {
 
-    int val = 0;
+        NumType val = 0;
 
-    while (pos > 0) {
-        val += v[pos];
-        pos -= (pos & -pos);    //get prefix sum
+        pos++;
+
+        while (pos > 0) {
+            val += bit[pos];
+            pos -= (pos & -pos);
+        }
+
+        return val;
     }
 
-    std::cout << val << std::endl;
-}
+    size_t size() {
+        return bit.size();
+    }
+
+};
+
 
 int main() {
 
     std::ios_base::sync_with_stdio(false);
     int number_test, u, q, val;
-    int n, left, right;
+    size_t n, left, right;
     std::cin >> number_test;
 
     for (int j=0; j<number_test; ++j) {
         std::cin >> n >> u;
 
-        std::vector<int64_t> bit(n+1, 0);
+        fenwick_tree<int64_t> bit(n);
 
         for (int i=0; i<u; ++i){
             std::cin >> left >> right >> val;
-            update(bit, left+1, val);
-            if (right + 2 < (int) bit.size())
-                update(bit, right+2, -val);
+            bit.update(left, val);
+            if (right+1 < bit.size())
+                bit.update(right+1, -val);
         }
 
         std::cin >> q;
 
         for (int i=0; i<q; ++i){
             std::cin >> left;
-            print_value(bit, left+1);
+            std::cout << bit.get_value(left) << std::endl;
         }
-
-        bit.clear();
     }
 
     return 0;
