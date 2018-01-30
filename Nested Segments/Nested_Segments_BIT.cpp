@@ -3,59 +3,75 @@
 #include <algorithm>
 #include <tuple>
 
-
 struct segment {
-    long int left;
-    long int right;
-    int pos;
+    int left;
+    int right;
+    size_t pos;
 };
 
-bool compare_left(segment a, segment b) {
-    return (a.left > b.left);    //there are no segments that coincide
-}
+template <class NumType>
+struct fenwick_tree {
 
-bool compare_right(segment a, segment b) {
-    return (a.right < b.right);    //there are no segments that coincide
-}
+private:
+
+    std::vector<NumType> bit;
+
+public:
+
+    explicit fenwick_tree(size_t n) : bit(n+1) { }
+
+    void update(size_t pos, NumType val) {
+
+		pos++;
+
+        while (pos < bit.size()) {
+            bit[pos] += val;
+            pos += (pos & -pos);
+        }
+    }
+
+    NumType get_value(size_t pos) {
+
+        NumType val = 0;
+        
+        pos++;
+
+        while (pos > 0) {
+            val += bit[pos];
+            pos -= (pos & -pos);
+        }
+
+        return val;
+    }
+
+};
+
 
 void rearrange(std::vector<segment>& v) {
 
-    std::sort(v.begin(), v.end(), compare_right);
+    std::sort(v.begin(), v.end(),
+              [](segment const& a, segment const& b) -> bool {
+        return a.right < b.right;
+    });
 
     for (int i=0; i<v.size(); ++i)
-        v[i].right = i+1;
+        v[i].right = i;
 
-    std::sort(v.begin(), v.end(), compare_left);
+    std::sort(v.begin(), v.end(),
+              [](segment const& a, segment const& b) -> bool {
+        return a.left > b.left;
+    });
 }
 
-void update(std::vector<int> &v, int pos) {
-
-    while (pos < (int) v.size()) {
-        v[pos] += 1;
-        pos += (pos & -pos);
-    }
-}
-
-int get_value(std::vector<int> const& v, int pos) {
-
-    int val = 0;
-
-    while (pos > 0) {
-        val += v[pos];
-        pos -= (pos & -pos);
-    }
-
-    return val;
-}
 
 void solve(std::vector<segment> const& v) {
 
-    std::vector<int> bit(v.size() + 1, 0);
-    std::vector<long int> sol(v.size(), 0);
+    fenwick_tree<int> bit(v.size());
+    std::vector<int> sol(v.size(), 0);
 
     for (auto a : v){
-        sol[a.pos] = get_value(bit, a.right);
-        update(bit, a.right);
+        sol[a.pos] = bit.get_value((size_t) a.right);
+        bit.update((size_t) a.right, 1);
     }
 
     for (auto n : sol)
@@ -65,12 +81,14 @@ void solve(std::vector<segment> const& v) {
 int main() {
 
     std::ios_base::sync_with_stdio(false);
-    long int n, l, r;
+    size_t n;
+    int l, r;
     std::vector<segment> test;
+
     std::cin >> n;
     test.reserve(n);
 
-    for (int i=0; i<n; ++i){
+    for (size_t i=0; i<n; ++i){
         std::cin >> l >> r;
         test.emplace_back(segment {l, r, i});
     }
