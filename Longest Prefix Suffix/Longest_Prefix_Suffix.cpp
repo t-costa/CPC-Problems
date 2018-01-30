@@ -36,7 +36,6 @@ int main() {
         std::cin >> s;
 
         std::cout << kmp(s) << std::endl;
-
     }
 
     return 0;
