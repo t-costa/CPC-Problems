@@ -1,2 +1,2 @@
 # CPC-Problems
-Collection of all the solved and implemented problems of the course Competitive Programming and Contest.
+Collection of all the solved and implemented problems of the course Competitive Programming and Contest at the University of Pisa.
